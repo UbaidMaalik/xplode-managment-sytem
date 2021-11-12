@@ -1,0 +1,4 @@
+{
+    "jwtSecret": "usmankhan12345",
+    "mongoUri": "mongodb+srv://xplodekhan:xplodekhan123@cluster0.ryqsy.mongodb.net/managment-system?retryWrites=true&w=majority"
+}
