@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 connectDB();
 
 // port
-const PORT = 3000;
+const PORT = 3001;
 
 // encoding type
 app.use(express.urlencoded({ extended: false }));
