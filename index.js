@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 connectDB();
 
 // port
-const PORT = 3000;
+const PORT = 3001;
 
 // encoding type
 app.use(express.urlencoded({ extended: false }));
@@ -16,6 +16,8 @@ app.use(express.json({ extended: false }));
 // routes
 app.use("/users", require("./routes/register"));
 app.use("/login", require("./routes/login"));
+app.use("/courses", require("./routes/courses"));
+app.use("/batches", require("./routes/batches"));
 
 app.get("/", (req, res) => {
   res.send(`Server listening on PORT ${PORT}`);
