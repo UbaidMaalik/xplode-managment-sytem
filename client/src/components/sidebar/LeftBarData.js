@@ -4,39 +4,61 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import PaymentIcon from "@mui/icons-material/Payment";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
-export const LeftBarData = [
+export const LeftBarData = (currentRoute) => [
   {
     id: 1,
     title: "Dashboard",
     path: "/dashboard",
     icon: <HomeIcon />,
+    selected: currentRoute === "/dashboard",
   },
   {
     id: 2,
-    title: "Student",
-    path: "/",
-    icon: <SupervisorAccountIcon />,
+    title: "Courses",
+    path: "/courses",
+    icon: <EditIcon />,
+    open: currentRoute === "/courses" || currentRoute === "/courses",
     submenu: [
       {
         id: 3,
-        title: "All Student",
-        path: "/",
-        icon: <StarBorder />,
+        title: "Add Course",
+        path: "/courses/create",
+        icon: <AddCircleIcon />,
+        selected: currentRoute === "/courses/create",
       },
       {
         id: 3,
-        title: "New Students",
-        path: "/addstudent",
-        icon: <AddCircleIcon />,
+        title: "Manage Courses",
+        path: "/managecourses",
+        icon: <ManageAccountsIcon />,
+        selected: currentRoute === "/managecourses",
       },
     ],
   },
   {
     id: 3,
-    title: "Courses",
+    title: "Students",
     path: "/",
-    icon: <EditIcon />,
+    icon: <SupervisorAccountIcon />,
+    open: currentRoute === "/students" || currentRoute === "/addstudent",
+    submenu: [
+      {
+        id: 3,
+        title: "Add Student",
+        path: "/addstudent",
+        icon: <AddCircleIcon />,
+        selected: currentRoute === "/addstudent",
+      },
+      {
+        id: 3,
+        title: "Manage Students",
+        path: "/managestudent",
+        icon: <ManageAccountsIcon />,
+        selected: currentRoute === "/managestudent",
+      },
+    ],
   },
   {
     id: 4,

@@ -8,20 +8,60 @@ import {
 import React, { useState } from "react";
 import { rootStyles } from "../globals/styles";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { register } from "../actions/auth";
+import Alert from "../globals/Alert";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => rootStyles(theme));
-const Signup = () => {
+const Signup = ({ register, auth: { isAuthenticated, loading } }) => {
   const classes = useStyles();
   // create state variables for each input
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleSubmit = (e) => {
+  const [message, setMessage] = useState({
+    isVisible: false,
+    type: "",
+    text: "",
+  });
+
+  const { name, email, password, confirmPassword } = state;
+
+  const onChange = (e) =>
+    setState({ ...state, [e.target.name]: e.target.value });
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    console.log(firstName, lastName, email, password);
-    handleClose();
+
+    if (password !== confirmPassword) {
+      return setMessage({
+        isVisible: true,
+        type: "danger",
+        text: "Passwords do not match",
+      });
+    }
+
+    setMessage({ isVisible: false, text: "", type: "" });
+
+    const user = {
+      name,
+      email,
+      password,
+    };
+
+    register(user);
+
+    setState({
+      name: "",
+      email: "",
+      password: "",
+      password_confirm: "",
+    });
   };
 
   const [open, setOpen] = useState(false);
@@ -33,47 +73,55 @@ const Signup = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  return (
+  return !loading && isAuthenticated ? (
+    <Redirect to="/dashboard" />
+  ) : (
     <div className="main-bg">
-      <Paper className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>
-          <PeopleAltIcon className={classes.icon} />
-        </Avatar> */}
+      <Paper className={classes.paper} elevation={0}>
         <img
           src="images/logo1.png"
           className={classes.logoInner}
           style={{ width: "150px" }}
         />
-        <form className={classes.root} onSubmit={handleSubmit}>
+        <form className={classes.root} onSubmit={onSubmit}>
           <TextField
-            label="First Name"
+            label="User Name"
             variant="outlined"
             required
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <TextField
-            label="Last Name"
-            variant="outlined"
-            required
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            id="name"
+            name="name"
+            onChange={onChange}
+            value={name}
           />
           <TextField
             label="Email"
             variant="outlined"
             type="email"
             required
+            id="email"
+            name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={onChange}
           />
           <TextField
             label="Password"
             variant="outlined"
             type="password"
             required
+            id="password"
+            name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={onChange}
+          />
+          <TextField
+            label="Confirm Password"
+            variant="outlined"
+            type="password"
+            required
+            id="confirmPassword"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={onChange}
           />
           <div>
             <Button
@@ -81,8 +129,6 @@ const Signup = () => {
               variant="contained"
               fullWidth={true}
               className={classes.button}
-              // style={{ backgroundColor: "#45a4f5", color: "white" }}
-              classNmae={classes.button}
               fullWidth
             >
               Signup
@@ -94,10 +140,19 @@ const Signup = () => {
               Sign in
             </Button>
           </div>
+          {message.isVisible && (
+            <div className={`alert alert-${message.type}`}>{message.text}</div>
+          )}
         </form>
+        <div className="message">
+          <Alert />
+        </div>
       </Paper>
     </div>
   );
 };
 
-export default Signup;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, { register })(Signup);

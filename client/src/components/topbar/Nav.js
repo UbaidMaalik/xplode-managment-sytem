@@ -17,11 +17,22 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { ListItemButton } from "@mui/material";
-import { Collapse } from "@material-ui/core";
+import {
+  FormControlLabel,
+  FormGroup,
+  ListItemButton,
+  Menu,
+  MenuItem,
+  Switch,
+} from "@mui/material";
+import { Avatar, Badge, Button, Collapse, Grid } from "@material-ui/core";
 import { LeftBarData } from "../sidebar/LeftBarData";
-import { useHistory } from "react-router";
-
+import { useHistory, useLocation, useRouteMatch } from "react-router";
+import { leftbarStyles } from "../sidebar/leftbarStyles";
+import { makeStyles } from "@material-ui/core";
+import { logout } from "../../actions/auth";
+import { connect } from "react-redux";
+import { AccountCircle, Notifications, Search } from "@mui/icons-material";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -69,11 +80,22 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft({ children }) {
+const useStyles = makeStyles((theme) => leftbarStyles(theme));
+const PersistentDrawerLeft = ({ children, logout }) => {
+  const location = useLocation();
+
+  const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [submenuOpen, setSubmenuOpen] = React.useState(false);
   const history = useHistory();
+  let history2 = useHistory();
+
+  const logUserOut = () => {
+    logout();
+
+    history2.push("login"); // redirect to login
+  };
   const handleClick = (itemId) => {
     if (submenuOpen) {
       setSubmenuOpen(null);
@@ -92,7 +114,13 @@ export default function PersistentDrawerLeft({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+
+      <AppBar
+        position="fixed"
+        open={open}
+        className={classes.topbar}
+        elevation={0}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -100,12 +128,22 @@ export default function PersistentDrawerLeft({ children }) {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{ mr: 2 }}
+            className={classes.iconButton}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1 }}
+            className={classes.typo}
+          >
+            Xplode Managment System
           </Typography>
+          <Button variant="text" onClick={logUserOut}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -122,7 +160,7 @@ export default function PersistentDrawerLeft({ children }) {
         open={open}
       >
         <DrawerHeader>
-          Xplode Managment
+          <img src={"images/logo.png"} className={classes.logo} />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -131,15 +169,15 @@ export default function PersistentDrawerLeft({ children }) {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
-        <List>
-          {LeftBarData.map((item) => (
+        <List className={classes.root}>
+          {LeftBarData(location.pathname).map((item) => (
             <React.Fragment key={item.id}>
               <ListItemButton
                 key={item.id}
                 onClick={() =>
                   !item.submenu ? history.push(item.path) : handleClick(item.id)
                 }
+                selected={item.selected}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText>{item.title}</ListItemText>
@@ -147,7 +185,7 @@ export default function PersistentDrawerLeft({ children }) {
 
               {item.submenu && (
                 <Collapse
-                  in={item.id === submenuOpen}
+                  in={item.id === submenuOpen || item.open}
                   timeout="auto"
                   unmountOnExit
                 >
@@ -157,6 +195,7 @@ export default function PersistentDrawerLeft({ children }) {
                         key={item.id}
                         onClick={() => history.push(item.path)}
                         sx={{ pl: 4 }}
+                        selected={item.selected}
                       >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText>{item.title}</ListItemText>
@@ -175,4 +214,6 @@ export default function PersistentDrawerLeft({ children }) {
       </Main>
     </Box>
   );
-}
+};
+
+export default connect(null, { logout })(PersistentDrawerLeft);

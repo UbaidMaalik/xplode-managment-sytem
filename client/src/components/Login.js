@@ -6,61 +6,73 @@ import {
   TextField,
 } from "@material-ui/core";
 import React, { useState } from "react";
-// import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import { Redirect } from "react-router-dom";
 import { rootStyles } from "../globals/styles";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../actions/auth";
+import Alert from "../globals/Alert";
+import Dashboard from "./Dashboard";
 
 const useStyles = makeStyles((theme) => rootStyles(theme));
-const Login = () => {
+const Login = ({ login, auth }) => {
   const classes = useStyles();
-  // create state variables for each input
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = (e) => {
+  const { email, password } = setState;
+
+  const onChange = (e) =>
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    console.log(firstName, lastName, email, password);
-    handleClose();
+
+    // Create account
+    login(state);
+
+    setState({
+      email: "",
+      password: "",
+    });
   };
 
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  if (!auth.loading && auth.isAuthenticated) {
+    return <Redirect to={Dashboard} />;
+  }
   return (
     <div className="main-bg">
-      <Paper className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>
-          <PeopleAltIcon className={classes.icon} />
-        </Avatar> */}
+      <Paper className={classes.paper} elevation={0}>
         <img
           src="images/logo1.png"
           className={classes.logoInner}
           style={{ width: "150px" }}
         />
-        <form className={classes.root} onSubmit={handleSubmit}>
+        <form className={classes.root} onSubmit={onSubmit}>
           <TextField
             label="Email"
             variant="outlined"
             type="email"
+            id="email"
+            name="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={onChange}
           />
           <TextField
             label="Password"
             variant="outlined"
             type="password"
+            id="password"
+            name="password"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={onChange}
           />
           <div>
             <Button
@@ -80,9 +92,13 @@ const Login = () => {
             </Button>
           </div>
         </form>
+        <Alert />
       </Paper>
     </div>
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, { login })(Login);
