@@ -16,6 +16,8 @@ app.use(express.json({ extended: false }));
 // routes
 app.use("/users", require("./routes/register"));
 app.use("/login", require("./routes/login"));
+app.use("/courses", require("./routes/courses"));
+app.use("/batches", require("./routes/batches"));
 
 app.get("/", (req, res) => {
   res.send(`Server listening on PORT ${PORT}`);
