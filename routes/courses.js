@@ -54,7 +54,7 @@ router.post(
  * @description Get all courses
  */
 router.get("/", async (req, res) => {
-  const courses = await Course.find();
+  const courses = await Course.find().sort({ createdAt: -1 });
   res.json(courses);
 });
 

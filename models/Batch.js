@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Batch = new mongoose.Schema({
+const BatchSchema = new mongoose.Schema({
   course: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
@@ -20,6 +20,6 @@ const Batch = new mongoose.Schema({
   },
 });
 
-const BatchModel = mongoose.model("Batch", Batch);
+const BatchModel = mongoose.model("Batch", BatchSchema);
 
 module.exports = BatchModel;
