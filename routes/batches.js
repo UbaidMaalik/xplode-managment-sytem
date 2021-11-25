@@ -51,7 +51,11 @@ router.post(
  * @description Get all batches
  */
 router.get("/", async (req, res) => {
-  const batches = await Batch.find();
+  const batches = await Batch.find().populate("course", [
+    "_id",
+    "name",
+    "code",
+  ]);
   res.json(batches);
 });
 
@@ -62,7 +66,11 @@ router.get("/", async (req, res) => {
  */
 router.get("/:id", async (req, res) => {
   try {
-    const batch = await Batch.findById(req.params.id);
+    const batch = await Batch.findById(req.params.id).populate("course", [
+      "_id",
+      "name",
+      "code",
+    ]);
     res.json(batch);
   } catch (error) {
     res.status(404).send("No batch Found");
