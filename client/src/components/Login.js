@@ -11,7 +11,7 @@ import { rootStyles } from "../globals/styles";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../actions/auth";
-import Alert from "../globals/Alert";
+import AAlert from "../globals/AAlert";
 import Dashboard from "./Dashboard";
 
 const useStyles = makeStyles((theme) => rootStyles(theme));
@@ -92,7 +92,7 @@ const Login = ({ login, auth }) => {
             </Button>
           </div>
         </form>
-        <Alert />
+        <AAlert />
       </Paper>
     </div>
   );

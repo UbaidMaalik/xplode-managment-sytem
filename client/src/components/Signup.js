@@ -10,7 +10,7 @@ import { rootStyles } from "../globals/styles";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import { register } from "../actions/auth";
-import Alert from "../globals/Alert";
+import AAlert from "../globals/AAlert";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => rootStyles(theme));
@@ -145,7 +145,7 @@ const Signup = ({ register, auth: { isAuthenticated, loading } }) => {
           )}
         </form>
         <div className="message">
-          <Alert />
+          <AAlert />
         </div>
       </Paper>
     </div>

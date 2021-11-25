@@ -12,6 +12,8 @@ import store from "./store";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
 import AddCourse from "./components/pages/course/AddCourse";
 import Courses from "./components/pages/course/Courses";
+import CourseGroup from "./components/pages/course/CourseGroup";
+import BatchGroup from "./components/pages/batch/BatchGroup";
 
 function App() {
   useEffect(() => {
@@ -38,6 +40,12 @@ function App() {
                 component={AddCourse}
               />
               <ProtectedRoute exact path="/managecourses" component={Courses} />
+              <ProtectedRoute
+                exact
+                path="/coursegroup"
+                component={CourseGroup}
+              />
+              <ProtectedRoute exact path="/batchgroup" component={BatchGroup} />
             </Layout>
           </Switch>
         </div>

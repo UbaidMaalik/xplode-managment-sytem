@@ -5,6 +5,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import PaymentIcon from "@mui/icons-material/Payment";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import SchoolIcon from "@mui/icons-material/School";
 
 export const LeftBarData = (currentRoute) => [
   {
@@ -16,29 +17,20 @@ export const LeftBarData = (currentRoute) => [
   },
   {
     id: 2,
-    title: "Courses",
-    path: "/courses",
-    icon: <EditIcon />,
-    open: currentRoute === "/courses" || currentRoute === "/courses",
-    submenu: [
-      {
-        id: 3,
-        title: "Add Course",
-        path: "/courses/create",
-        icon: <AddCircleIcon />,
-        selected: currentRoute === "/courses/create",
-      },
-      {
-        id: 3,
-        title: "Manage Courses",
-        path: "/managecourses",
-        icon: <ManageAccountsIcon />,
-        selected: currentRoute === "/managecourses",
-      },
-    ],
+    title: "Batch",
+    path: "/batchgroup",
+    icon: <SchoolIcon />,
+    open: currentRoute === "/batchgroup" || currentRoute === "/batchgroup",
   },
   {
     id: 3,
+    title: "Courses",
+    path: "/coursegroup",
+    icon: <EditIcon />,
+    open: currentRoute === "/coursegroup" || currentRoute === "/coursegroup",
+  },
+  {
+    id: 4,
     title: "Students",
     path: "/",
     icon: <SupervisorAccountIcon />,
@@ -61,7 +53,7 @@ export const LeftBarData = (currentRoute) => [
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "Fees Structure",
     path: "/",
     icon: <PaymentIcon />,
