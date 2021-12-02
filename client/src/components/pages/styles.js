@@ -9,6 +9,24 @@ export const dataStyles = (theme) => ({
     //   width: "100%",
     // },
   },
+  styleBox: {
+    backgroundColor: "#fff",
+    borderRadius: "5px",
+    padding: "2em",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px",
+    marginRight: "2em",
+    marginLeft: "1em",
+    marginTop: "1em",
+  },
+  rightBox: {
+    backgroundColor: "#fff",
+    borderRadius: "5px",
+    padding: "2em",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px",
+    marginTop: "1em",
+  },
   dataTable: {
     backgroundColor: "#fff",
     borderRadius: "5px",
@@ -22,6 +40,13 @@ export const dataStyles = (theme) => ({
   },
   editHeading: {
     textAlign: "center",
+  },
+  stylingTextField: {
+    width: "100% !important",
+  },
+  stylingTextField2: {
+    width: "100% !important",
+    margin: "0 !important",
   },
   submitBtn: {
     backgroundColor: "#1976d2",
@@ -90,6 +115,7 @@ export const dataStyles = (theme) => ({
     color: "#d10707 !important",
     marginTop: "1.5em",
     marginBottom: "0.5em",
+    fontSize: "10px !important",
     "&:hover": {
       // backgroundColor: "rgb(183, 33, 54) !important",
       border: "0",
@@ -98,5 +124,34 @@ export const dataStyles = (theme) => ({
   },
   iconColor: {
     color: "red !important",
+  },
+  image: {
+    width: "144px",
+    height: "144px",
+    margin: "auto",
+    borderRadius: "50%",
+    padding: "8px",
+    border: "1px dashed rgb(145 158 171 / 47%)",
+    display: "flex",
+    // position: "absolute",
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "center",
+    color: "rgb(99, 115, 129)",
+    backgroundColor: "rgb(244, 246, 248)",
+    transition: "opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+  },
+
+  previewImage: {
+    borderRadius: "100px",
+    width: "155px",
+    height: "155px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    border: "1px dashed rgb(145 158 171 / 47%)",
+    marginLeft: "-2em",
+    marginBottom: "1em",
+    padding: "1px",
   },
 });

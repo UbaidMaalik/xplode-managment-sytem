@@ -34,7 +34,7 @@ const Actions = ({ id, batch, singleBatch, deleteBatch }) => {
           onClick={() => getSingleBatch(id)}
           className={classes.editBtn}
         >
-          <EditIcon />
+          <EditIcon sx={{ fontSize: "small" }} />
         </Button>
 
         <Button
@@ -47,7 +47,7 @@ const Actions = ({ id, batch, singleBatch, deleteBatch }) => {
             }
           }}
         >
-          <DeleteForeverIcon />
+          <DeleteForeverIcon sx={{ fontSize: "small" }} />
         </Button>
       </ButtonGroup>
 

@@ -38,10 +38,10 @@ export const LeftBarData = (currentRoute) => [
     submenu: [
       {
         id: 3,
-        title: "Add Student",
-        path: "/addstudent",
+        title: "Create Student",
+        path: "/createstudent",
         icon: <AddCircleIcon />,
-        selected: currentRoute === "/addstudent",
+        selected: currentRoute === "/createstudent",
       },
       {
         id: 3,

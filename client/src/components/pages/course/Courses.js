@@ -15,13 +15,14 @@ const Courses = ({ getCourses, course: { courses, loading } }) => {
   }, []);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 70 },
+    // { field: "_id", headerName: "ID", width: 70 },
+    { field: "sn", headerName: "#", width: 20 },
     { field: "name", headerName: "Course", width: 130 },
-    { field: "code", headerName: "Course Code", width: 130 },
+    { field: "code", headerName: "Course Code", width: 150 },
     {
       field: "period",
       headerName: "Time Period",
-      width: 80,
+      width: 130,
       valueGetter: (params) =>
         `${params.getValue(params.id, "duration") || ""} ${
           params.getValue(params.id, "duration_type") || ""
@@ -36,16 +37,20 @@ const Courses = ({ getCourses, course: { courses, loading } }) => {
       ),
     },
   ];
+  const all_courses = [];
+
+  courses.map((course, index) =>
+    all_courses.push({ ...course, sn: index + 1 })
+  );
   return (
     <div style={{ height: 505, width: "100%" }}>
       <DataGrid
         className={classes.dataTable}
-        rows={courses}
+        rows={all_courses}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[5]}
         getRowId={(row) => row._id}
-        checkboxSelection
         loading={loading}
       />
     </div>

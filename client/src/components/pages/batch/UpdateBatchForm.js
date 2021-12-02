@@ -65,7 +65,7 @@ const UpdateBatchForm = ({
           Edit Courses
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xs={11}>
             <FormControl fullWidth sx={{ m: 1 }}>
               <InputLabel htmlFor="outlined-adornment-course">
                 Course{" "}
@@ -82,17 +82,14 @@ const UpdateBatchForm = ({
                 {!loading &&
                   courses.length &&
                   courses.map((course) => (
-                    <MenuItem
-                      value={course._id}
-                      // selected={duration_type === "Year"}
-                    >
+                    <MenuItem value={course._id}>
                       {course.name}-{course.code}
                     </MenuItem>
                   ))}
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={11}>
             <FormControl fullWidth sx={{ m: 1 }}>
               <InputLabel htmlFor="outlined-adornment-amount">
                 Batch Name
@@ -106,7 +103,7 @@ const UpdateBatchForm = ({
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={11}>
             <FormControl fullWidth sx={{ m: 1 }}>
               <InputLabel htmlFor="outlined-adornment-day">Days</InputLabel>
               <OutlinedInput
@@ -118,7 +115,7 @@ const UpdateBatchForm = ({
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={11}>
             <FormControl fullWidth sx={{ m: 1 }}>
               <InputLabel htmlFor="outlined-adornment-timing">
                 Timing{" "}

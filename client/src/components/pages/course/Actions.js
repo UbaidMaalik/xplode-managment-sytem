@@ -34,7 +34,7 @@ const Actions = ({ id, course, singleCourse, deleteCourse }) => {
           onClick={() => getSingleCourse(id)}
           className={classes.editBtn}
         >
-          <EditIcon />
+          <EditIcon sx={{ fontSize: "small" }} />
         </Button>
 
         <Button
@@ -47,7 +47,7 @@ const Actions = ({ id, course, singleCourse, deleteCourse }) => {
             }
           }}
         >
-          <DeleteForeverIcon className={classes.iconColor} />
+          <DeleteForeverIcon sx={{ fontSize: "small" }} />
         </Button>
       </ButtonGroup>
 

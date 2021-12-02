@@ -33,7 +33,11 @@ function App() {
 
             <Layout>
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-              <ProtectedRoute exact path="/addstudent" component={AddStudent} />
+              <ProtectedRoute
+                exact
+                path="/createstudent"
+                component={AddStudent}
+              />
               <ProtectedRoute
                 exact
                 path="/courses/create"

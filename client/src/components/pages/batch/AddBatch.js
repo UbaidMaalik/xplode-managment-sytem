@@ -19,6 +19,10 @@ import AAlert from "../../../globals/AAlert";
 import { newBatch } from "../../../actions/batch";
 import { getCourses } from "../../../actions/course";
 import { connect } from "react-redux";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import TimePicker from "@mui/lab/TimePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import MobileTimePicker from "@mui/lab/MobileTimePicker";
 
 const useStyles = makeStyles((theme) => dataStyles(theme));
 const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
@@ -26,21 +30,24 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
   const [state, setState] = useState({
     course: "",
     name: "",
-    days: "",
-    timing: "",
+    dayFrom: "",
+    dayTo: "",
+    timeTo: new Date("2018-01-01T00:00:00.000Z"),
+    timeFrom: new Date("2018-01-01T00:00:00.000Z"),
   });
 
   useEffect(() => {
     getCourses();
   }, []);
 
-  const { course, name, days, timing } = state;
+  const { course, name, dayFrom, dayTo, timeTo, timeFrom } = state;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -48,8 +55,10 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
     setState({
       course: "",
       name: "",
-      days: "",
-      timing: "",
+      dayFrom: "",
+      dayTo: "",
+      timeTo: "",
+      timeFrom: "",
     });
   };
 
@@ -113,29 +122,96 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+
+        <Grid item xs={5}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-day">Days</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-day"
-              label="Days"
-              name="days"
-              value={days}
+            <InputLabel htmlFor="outlined-adornment-course">Day </InputLabel>
+            {/* <InputLabel id="demo-simple-select-label">Duration Type</InputLabel> */}
+            <Select
+              labelId="demo-simple-select-label"
+              id="dayFrom"
+              label="Day From"
+              name="dayFrom"
+              value={dayFrom}
               onChange={onChange}
-            />
+            >
+              <MenuItem>Sunday</MenuItem>
+              <MenuItem>Monday</MenuItem>
+              <MenuItem>Tuesday</MenuItem>
+              <MenuItem>Wednesday</MenuItem>
+              <MenuItem>Thursday</MenuItem>
+              <MenuItem>Friday</MenuItem>
+            </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={2}>
+          <p>To</p>
+        </Grid>
+        <Grid item xs={5}>
           <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-timing">Timing </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-timing"
-              label="Timing"
-              name="timing"
-              value={timing}
+            <InputLabel htmlFor="outlined-adornment-course">Day</InputLabel>
+            {/* <InputLabel id="demo-simple-select-label">Duration Type</InputLabel> */}
+            <Select
+              labelId="demo-simple-select-label"
+              id="dayTo"
+              label="Day To"
+              name="dayTo"
+              value={dayTo}
               onChange={onChange}
-            />
+            >
+              <MenuItem>Sunday</MenuItem>
+              <MenuItem>Monday</MenuItem>
+              <MenuItem>Tuesday</MenuItem>
+              <MenuItem>Wednesday</MenuItem>
+              <MenuItem>Thursday</MenuItem>
+              <MenuItem>Friday</MenuItem>
+            </Select>
           </FormControl>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={12}>
+              {/* <FormControl fullWidth sx={{ m: 1 }}> */}
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack spacing={3}>
+                  <TimePicker
+                    label="Time From"
+                    value={timeFrom}
+                    name="timeFrom"
+                    onChange={(newVal) =>
+                      setState({ ...state, timeFrom: newVal })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={classes.stylingTextField}
+                      />
+                    )}
+                  />
+                  <TimePicker
+                    label="Time To"
+                    value={timeTo}
+                    name="timeTo"
+                    onChange={(newVal) =>
+                      setState({ ...state, timeTo: newVal })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        className={classes.stylingTextField}
+                      />
+                    )}
+                  />
+                </Stack>
+              </LocalizationProvider>
+              {/* </FormControl> */}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
           <Button
             variant="contained"
             type="submit"
