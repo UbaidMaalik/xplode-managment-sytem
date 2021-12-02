@@ -10,11 +10,19 @@ const BatchSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  days: {
+  from_day: {
     type: String,
     required: true,
   },
-  timing: {
+  to_day: {
+    type: String,
+    required: true,
+  },
+  from_time: {
+    type: String,
+    required: true,
+  },
+  to_time: {
     type: String,
     required: true,
   },
