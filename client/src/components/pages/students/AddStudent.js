@@ -9,56 +9,97 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-import isWeekend from "date-fns/isWeekend";
+import { getBatches } from "../../../actions/batch";
 import TextField from "@mui/material/TextField";
-import StaticDatePicker from "@mui/lab/StaticDatePicker";
+import { newStudent } from "../../../actions/student";
+import { connect } from "react-redux";
+import AAlert from "../../../globals/AAlert";
 
 const useStyles = makeStyles((theme) => dataStyles(theme));
-const AddStudent = () => {
+const AddStudent = ({
+  newStudent,
+  alert,
+  getBatches,
+  batch: { batches, loading },
+}) => {
   const classes = useStyles();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [state, setState] = useState({
-    studentName: "",
-    parents: "",
-    phoneNumber: "",
-    homePhone: "",
+    name: "",
+    father_name: "",
+    phone_number: "",
+    home_phone: "",
     gender: "",
     nic: "",
     address: "",
-    dob: "",
+    d_o_b: "",
     batch: "",
     email: "",
-    photo: null,
-    attachments: [],
-    addmission: "",
-    heardFrom: "",
-    regNumber: "",
+    image: null,
+    attachment: [],
+    admission_date: "",
+    heard_from: "",
+    reg_number: "",
   });
   const {
-    studentName,
-    parents,
-    phoneNumber,
-    homePhone,
+    name,
+    father_name,
+    phone_number,
+    home_phone,
     gender,
     nic,
     address,
-    dob,
+    d_o_b,
     batch,
     email,
-    photo,
-    attachments,
-    addmission,
-    heardFrom,
-    regNumber,
+    image,
+    attachment,
+    admission_date,
+    heard_from,
+    reg_number,
   } = state;
 
   useEffect(() => {
-    if (photo) {
-      setImageUrl(URL.createObjectURL(photo));
+    if (image) {
+      setImageUrl(URL.createObjectURL(image));
     }
-  }, [photo]);
+  }, [image]);
 
+  useEffect(() => {
+    getBatches();
+  }, []);
+
+  const onChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    newStudent(state);
+    if (alert.length === 0) {
+      setState({
+        name: "",
+        father_name: "",
+        phone_number: "",
+        home_phone: "",
+        gender: "",
+        nic: "",
+        address: "",
+        d_o_b: new Date("2018-01-01T00:00:00.000Z"),
+        batch: "",
+        email: "",
+        photo: null,
+        attachment: [],
+        admission_date: new Date("2018-01-01T00:00:00.000Z"),
+        heard_from: "",
+        reg_number: "",
+      });
+    }
+  };
   return (
     <Fragment>
       <Typography
@@ -77,6 +118,7 @@ const AddStudent = () => {
         }}
         noValidate
         autoComplete="off"
+        onSubmit={onSubmit}
       >
         <Grid container spacing={2}>
           <Grid xs={12} sm={6} md={3} className={classes.styleBox}>
@@ -94,14 +136,14 @@ const AddStudent = () => {
                 hidden
                 onChange={(e) => {
                   console.log(e.target.files);
-                  setState({ ...state, photo: e.target.files[0] });
+                  setState({ ...state, image: e.target.files[0] });
                 }}
               />
-              {imageUrl && photo && (
+              {imageUrl && image && (
                 <Box mt={2} textAlign="center">
                   <img
                     src={imageUrl}
-                    alt={photo.name}
+                    alt={image.name}
                     className={classes.previewImage}
                   />
                 </Box>
@@ -115,25 +157,29 @@ const AddStudent = () => {
             <Grid container spacing={2}>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-studentName">
+                  <InputLabel htmlFor="outlined-adornment-name">
                     Student Name
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-studentName"
+                    id="outlined-adornment-name"
                     label="Student Name"
-                    name="studentName"
+                    name="name"
+                    value={name}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-parents">
+                  <InputLabel htmlFor="outlined-adornment-father_name">
                     Parents / Guardian
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-parents"
+                    id="outlined-adornment-father_name"
                     label="Parents / Guardian"
-                    name="parents"
+                    name="father_name"
+                    value={father_name}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
@@ -141,25 +187,29 @@ const AddStudent = () => {
             <Grid container spacing={2}>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-phoneNumber">
+                  <InputLabel htmlFor="outlined-adornment-phone_number">
                     Phone Number{" "}
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-phoneNumber"
+                    id="outlined-adornment-phone_number"
                     label="Phone Number"
-                    name="phoneNumber"
+                    name="phone_number"
+                    value={phone_number}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-homePhone">
+                  <InputLabel htmlFor="outlined-adornment-home_phone">
                     Home Phone{" "}
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-homePhone"
+                    id="outlined-adornment-home_phone"
                     label="Home Phone"
-                    name="homePhone"
+                    name="home_phone"
+                    value={home_phone}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
@@ -170,15 +220,20 @@ const AddStudent = () => {
                   <InputLabel htmlFor="outlined-adornment-durationType">
                     Gender{" "}
                   </InputLabel>
-                  {/* <InputLabel id="demo-simple-select-label">Duration Type</InputLabel> */}
                   <Select
                     labelId="demo-simple-select-label"
                     id="gender"
                     label="Gender"
                     name="gender"
+                    value={gender}
+                    onChange={onChange}
                   >
-                    <MenuItem value={1}>Male</MenuItem>
-                    <MenuItem value={2}>Female</MenuItem>
+                    <MenuItem value="Male" selected={gender === "Male"}>
+                      Male
+                    </MenuItem>
+                    <MenuItem value="Female" selected={gender === "Female"}>
+                      Female
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -191,6 +246,8 @@ const AddStudent = () => {
                     id="outlined-adornment-adress"
                     label="Address"
                     name="address"
+                    value={address}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
@@ -203,6 +260,8 @@ const AddStudent = () => {
                     id="outlined-adornment-nic"
                     label="NIC"
                     name="nic"
+                    value={nic}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
@@ -210,8 +269,8 @@ const AddStudent = () => {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Date Of borth"
-                    value={dob}
-                    onChange={(newVal) => setState({ ...state, dob: newVal })}
+                    value={d_o_b}
+                    onChange={(newVal) => setState({ ...state, d_o_b: newVal })}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -233,19 +292,19 @@ const AddStudent = () => {
                     id="batch"
                     label="Batch"
                     name="batch"
-                    // value={batch}
-                    // onChange={onChange}
+                    value={batch}
+                    onChange={onChange}
                   >
-                    {/* {!loading &&
-                      courses.length &&
-                      courses.map((course) => (
+                    {!loading &&
+                      batches.length &&
+                      batches.map((batch) => (
                         <MenuItem
-                          value={course._id}
+                          value={batch._id}
                           // selected={duration_type === "Year"}
                         >
-                          {course.name}-{course.code}
+                          {batch.name}-{batch.code}
                         </MenuItem>
-                      ))} */}
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -258,6 +317,8 @@ const AddStudent = () => {
                     id="outlined-adornment-email"
                     label="Email"
                     name="email"
+                    value={email}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
@@ -265,17 +326,12 @@ const AddStudent = () => {
             <Grid container spacing={2}>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  {/* <InputLabel
-                    type="file"
-                    htmlFor="outlined-adornment-attachement"
-                  >
-                    Attachement{" "}
-                  </InputLabel> */}
                   <TextField
                     id="outlined-basic"
-                    // label="Attachment"
                     variant="outlined"
                     name="attachments"
+                    value={attachment}
+                    onChange={onChange}
                     type="file"
                     multiple
                     className={classes.stylingTextField2}
@@ -286,9 +342,9 @@ const AddStudent = () => {
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
                     label="Addmission Date"
-                    value={addmission}
+                    value={admission_date}
                     onChange={(newVal) =>
-                      setState({ ...state, addmission: newVal })
+                      setState({ ...state, admission_date: newVal })
                     }
                     renderInput={(params) => (
                       <TextField
@@ -303,29 +359,45 @@ const AddStudent = () => {
             <Grid container spacing={2}>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-heardFrom">
+                  <InputLabel htmlFor="outlined-adornment-heard_from">
                     Heard From
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-heardFrom"
+                    id="outlined-adornment-heard_from"
                     label="Heard From"
-                    name="heardFrom"
+                    name="heard_from"
+                    value={heard_from}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-regNumber">
+                  <InputLabel htmlFor="outlined-adornment-reg_number">
                     Registration Number
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-regNumber"
+                    id="outlined-adornment-reg_number"
                     label="Registration Number"
-                    name="regNumber"
+                    name="reg_number"
+                    value={reg_number}
+                    onChange={onChange}
                   />
                 </FormControl>
               </Grid>
             </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={4} sm={4} md={12}>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  className={classes.submitBtn}
+                >
+                  SUBMIT
+                </Button>
+              </Grid>
+            </Grid>
+            <AAlert />
           </Grid>
         </Grid>
       </Box>
@@ -333,4 +405,8 @@ const AddStudent = () => {
   );
 };
 
-export default AddStudent;
+const mapStateToProps = (state) => ({
+  alert: state.alert,
+  batch: state.batch,
+});
+export default connect(mapStateToProps, { newStudent, getBatches })(AddStudent);

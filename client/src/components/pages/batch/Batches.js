@@ -13,6 +13,12 @@ const Batches = ({ getBatches, batch: { batches, loading } }) => {
     getBatches();
   }, []);
 
+  const toTimeString = (timeObj) => {
+    const d = new Date(timeObj);
+
+    return d.toLocaleTimeString("en-US", { hour12: true, hour: "2-digit" });
+  };
+
   const columns = [
     { field: "sn", headerName: "#", width: 20 },
     {
@@ -22,9 +28,28 @@ const Batches = ({ getBatches, batch: { batches, loading } }) => {
       valueFormatter: ({ value }) => value.name,
     },
     { field: "name", headerName: "Batch Name", width: 130 },
-    { field: "days", headerName: "Days", width: 130 },
-    { field: "timing", headerName: "Timing", width: 130 },
+    // { field: "days", headerName: "Days", width: 130 },
+    // { field: "timing", headerName: "Timing", width: 130 },
+    {
+      field: "timePeriod",
+      headerName: "Days",
+      width: 100,
+      valueGetter: (params) =>
+        `${params.getValue(params.id, "from_day") || ""} To ${
+          params.getValue(params.id, "to_day") || ""
+        }`,
+    },
+    {
+      field: "timing",
+      headerName: "Timing",
+      width: 160,
+      valueGetter: (params) => {
+        const fromTime = toTimeString(params.getValue(params.id, "from_time"));
+        const toTime = toTimeString(params.getValue(params.id, "to_time"));
 
+        return `${fromTime || ""} To ${toTime || ""}`;
+      },
+    },
     {
       field: "actions",
       headerName: "Actions",

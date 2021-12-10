@@ -30,17 +30,17 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
   const [state, setState] = useState({
     course: "",
     name: "",
-    dayFrom: "",
-    dayTo: "",
-    timeTo: new Date("2018-01-01T00:00:00.000Z"),
-    timeFrom: new Date("2018-01-01T00:00:00.000Z"),
+    from_day: "",
+    to_day: "",
+    from_time: new Date("2018-01-01T00:00:00.000Z"),
+    to_time: new Date("2018-01-01T00:00:00.000Z"),
   });
 
   useEffect(() => {
     getCourses();
   }, []);
 
-  const { course, name, dayFrom, dayTo, timeTo, timeFrom } = state;
+  const { course, name, from_day, to_day, from_time, to_time } = state;
 
   const onChange = (e) => {
     setState({
@@ -129,18 +129,27 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
             {/* <InputLabel id="demo-simple-select-label">Duration Type</InputLabel> */}
             <Select
               labelId="demo-simple-select-label"
-              id="dayFrom"
+              id="from_day"
               label="Day From"
-              name="dayFrom"
-              value={dayFrom}
+              name="from_day"
+              value={from_day}
               onChange={onChange}
             >
-              <MenuItem>Sunday</MenuItem>
-              <MenuItem>Monday</MenuItem>
-              <MenuItem>Tuesday</MenuItem>
-              <MenuItem>Wednesday</MenuItem>
-              <MenuItem>Thursday</MenuItem>
-              <MenuItem>Friday</MenuItem>
+              <MenuItem value="Mon" selected={from_day === "Mon"}>
+                Mon
+              </MenuItem>
+              <MenuItem value="Tue" selected={from_day === "Tue"}>
+                Tue
+              </MenuItem>
+              <MenuItem value="Wed" selected={from_day === "Wed"}>
+                Wed
+              </MenuItem>
+              <MenuItem value="Thu" selected={from_day === "Thu"}>
+                Thu
+              </MenuItem>
+              <MenuItem value="Fri" selected={from_day === "Fri"}>
+                Fri
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -153,18 +162,27 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
             {/* <InputLabel id="demo-simple-select-label">Duration Type</InputLabel> */}
             <Select
               labelId="demo-simple-select-label"
-              id="dayTo"
+              id="to_day"
               label="Day To"
-              name="dayTo"
-              value={dayTo}
+              name="to_day"
+              value={to_day}
               onChange={onChange}
             >
-              <MenuItem>Sunday</MenuItem>
-              <MenuItem>Monday</MenuItem>
-              <MenuItem>Tuesday</MenuItem>
-              <MenuItem>Wednesday</MenuItem>
-              <MenuItem>Thursday</MenuItem>
-              <MenuItem>Friday</MenuItem>
+              <MenuItem value="Mon" selected={to_day === "Mon"}>
+                Mon
+              </MenuItem>
+              <MenuItem value="Tue" selected={to_day === "Tue"}>
+                Tue
+              </MenuItem>
+              <MenuItem value="Wed" selected={to_day === "Wed"}>
+                Wed
+              </MenuItem>
+              <MenuItem value="Thu" selected={to_day === "Thu"}>
+                Thu
+              </MenuItem>
+              <MenuItem value="Fri" selected={to_day === "Fri"}>
+                Fri
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -177,10 +195,10 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
                 <Stack spacing={3}>
                   <TimePicker
                     label="Time From"
-                    value={timeFrom}
-                    name="timeFrom"
+                    value={from_time}
+                    name="from_time"
                     onChange={(newVal) =>
-                      setState({ ...state, timeFrom: newVal })
+                      setState({ ...state, from_time: newVal })
                     }
                     renderInput={(params) => (
                       <TextField
@@ -192,10 +210,10 @@ const AddBatch = ({ newBatch, getCourses, course: { courses, loading } }) => {
                   />
                   <TimePicker
                     label="Time To"
-                    value={timeTo}
-                    name="timeTo"
+                    value={to_time}
+                    name="to_time"
                     onChange={(newVal) =>
-                      setState({ ...state, timeTo: newVal })
+                      setState({ ...state, to_time: newVal })
                     }
                     renderInput={(params) => (
                       <TextField

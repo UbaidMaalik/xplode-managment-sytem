@@ -20,3 +20,10 @@ export const SINGLE_BATCH = "SINGLE_BATCH";
 export const UPDATE_BATCH = "UPDATE_BATCH";
 export const DELETE_BATCH = "DELETE_BATCH";
 export const BATCH_ERROR = "BATCH_ERROR";
+
+export const NEW_STUDENT = "NEW_STUDENT";
+export const GET_STUDENTS = "GET_STUDENTS";
+export const SINGLE_STUDENT = "SINGLE_STUDENT";
+export const UPDATE_STUDENT = "UPDATE_STUDENT";
+export const DELETE_STUDENT = "DELETE_STUDENT";
+export const STUDENT_ERROR = "STUDENT_ERROR";
