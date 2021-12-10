@@ -41,7 +41,7 @@ const StudentSchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    attachment: {
+    attachments: {
       type: Array,
     },
     admission_date: {

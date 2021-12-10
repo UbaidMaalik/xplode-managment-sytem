@@ -5,13 +5,19 @@ const auth = require("../middlewares/auth");
 const multer = require("multer");
 const path = require("path");
 const { MulterError } = require("multer");
+const nodemailer = require("nodemailer");
 
 // Models
 const Student = require("../models/Student");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    return cb(null, "./uploads");
+    return cb(
+      null,
+      `./uploads/students/${
+        file.fieldname === "image" ? "images" : "attachments"
+      }`
+    );
   },
 
   filename: function (req, file, cb) {
@@ -27,74 +33,33 @@ const upload = multer({
 
   fileFilter: function (req, file, cb) {
     const fileExt = path.extname(file.originalname);
-    // Check the type of file
-    if (
-      fileExt !== ".jpg" &&
-      fileExt !== ".jpeg" &&
-      fileExt !== ".png" &&
-      fileExt !== ".gif"
-    ) {
-      return cb(new Error("Only image files are allowed!"), false);
-    }
 
+    if (file.fieldname === "image") {
+      // Check the type of file
+      if (
+        fileExt !== ".jpg" &&
+        fileExt !== ".jpeg" &&
+        fileExt !== ".png" &&
+        fileExt !== ".gif"
+      ) {
+        return cb(new Error("Only image files are allowed!"), false);
+      }
+    }
+    if (file.fieldname === "attachments") {
+      if (
+        fileExt !== ".jpg" &&
+        fileExt !== ".jpeg" &&
+        fileExt !== ".png" &&
+        fileExt !== ".pdf" &&
+        fileExt !== ".doc" &&
+        fileExt !== ".docx" &&
+        fileExt !== ".gif"
+      ) {
+        return cb("Only images,msword, pdf files are allowed!", false);
+      }
+    }
     cb(null, true);
   },
-}).single("image");
-
-// Upload attachment Config
-const uploadFiles = multer({
-  storage,
-  limits: { fileSize: 8048000 },
-
-  fileFilter: function (req, file, cb) {
-    const fileExt = path.extname(file.originalname);
-    // Check the type of file
-    if (
-      fileExt !== ".jpg" &&
-      fileExt !== ".jpeg" &&
-      fileExt !== ".png" &&
-      fileExt !== ".pdf" &&
-      fileExt !== ".doc" &&
-      fileExt !== ".docx" &&
-      fileExt !== ".gif"
-    ) {
-      return cb(new Error("Only images,msword, pdf files are allowed!"), false);
-    }
-
-    cb(null, true);
-  },
-}).array("file", 5);
-
-/**
- * @POST
- * Upload students image
- */
-router.post("/upload", auth, (req, res) => {
-  upload(req, res, (err) => {
-    if (err instanceof MulterError) {
-      return res.json({
-        error: "File type is invalid or size exceeds the limit",
-      });
-    } else {
-      return res.json({ fileName: req.file.filename });
-    }
-  });
-});
-
-/**
- * @POST
- * Upload students attachment
- */
-router.post("/upload/files", auth, (req, res) => {
-  uploadFiles(req, res, (err) => {
-    if (err instanceof MulterError) {
-      return res.json({
-        error: "File type is invalid or size exceeds the limit",
-      });
-    } else {
-      return res.json({ fileName: req.files.filename });
-    }
-  });
 });
 
 /**
@@ -104,19 +69,29 @@ router.post("/upload/files", auth, (req, res) => {
  */
 router.post(
   "/add",
-  auth,
+  [
+    auth,
+    upload.fields([
+      {
+        name: "image",
+        maxCount: 1,
+      },
+      {
+        name: "attachments",
+        maxCount: 5,
+      },
+    ]),
+  ],
   [
     check("name", "The name field is required").not().isEmpty(),
     check("father_name", "The father_name field is required").not().isEmpty(),
     check("phone_number", "The phone_number field is required").not().isEmpty(),
-    check("image", "The image field is required").not().isEmpty(),
     check("nic", "The nic field is required").not().isEmpty(),
     check("address", "The address field is required").not().isEmpty(),
     check("gender", "The gender field is required").not().isEmpty(),
     check("batch", "The batch field is required").not().isEmpty(),
     check("d_o_b", "The d_o_b field is required").not().isEmpty(),
     check("email", "The email field is required").not().isEmpty(),
-    check("attachment", "The attachment field is required").not().isEmpty(),
     check("admission_date", "The admission_date field is required")
       .not()
       .isEmpty(),
@@ -131,18 +106,25 @@ router.post(
       return res.status(422).json({ errors: validationErrors.array() });
     }
 
+    if (!req.files.image) {
+      return res.status(422).json({ fileError: "The image field is required" });
+    }
+
+    const image = req.files.image[0].filename;
+    const attachments = req.files.attachments.map(
+      (attachment) => attachment.filename
+    );
+
     const {
       name,
       father_name,
       phone_number,
-      image,
       nic,
       address,
       gender,
       batch,
       d_o_b,
       email,
-      attachment,
       admission_date,
       heard_from,
       reg_number,
@@ -163,13 +145,13 @@ router.post(
       father_name,
       phone_number,
       image,
+      attachments,
       nic,
       address,
       gender,
       batch,
       d_o_b,
       email,
-      attachment,
       admission_date,
       heard_from,
       reg_number,
@@ -177,6 +159,27 @@ router.post(
     });
 
     const newstudent = await student.save();
+
+    if (email) {
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: "ualikhan521@gmail.com", // generated ethereal user
+          pass: "usmana35khan", // generated ethereal password
+        },
+      });
+
+      // send mail with defined transport object
+      let info = await transporter.sendMail({
+        from: '"Xplode Tech" <ualikhan521@gmail.com>', // sender address
+        to: `${name} : ${email}`, // list of receivers
+        subject: "Registation completed ✔", // Subject line
+        html: " <img src='https://scontent.fkhi23-1.fna.fbcdn.net/v/t39.30808-6/p320x320/248649759_668126817901065_55636775377474404_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=e3f864&_nc_eui2=AeG24VUx_Of99jwtMOSinw_ibgAgfZ9lryhuACB9n2WvKChqrs0TagkfkTimiz46tNTgt8GjnmAUFpp-obM08A9j&_nc_ohc=wlzjVRZQxh8AX9-RlRs&_nc_ht=scontent.fkhi23-1.fna&oh=325a06170e42bdc29b5e27c0f5968299&oe=61B28FD4'> <h2 style='text-align: center;'>Welcome To Xplode Tech</h2> <p style='margin-top: 10px;'>Your registation in <b>Xplode Tech</b> has been completed.</p>", // html body
+      });
+      console.log("Message sent: %s", info.messageId);
+    }
 
     res.json(newstudent);
   }
@@ -218,17 +221,28 @@ router.put(
   "/:id/update",
   auth,
   [
+    auth,
+    upload.fields([
+      {
+        name: "image",
+        maxCount: 1,
+      },
+      {
+        name: "attachments",
+        maxCount: 5,
+      },
+    ]),
+  ],
+  [
     check("name", "The name field is required").not().isEmpty(),
     check("father_name", "The father_name field is required").not().isEmpty(),
     check("phone_number", "The phone_number field is required").not().isEmpty(),
-    check("image", "The image field is required").not().isEmpty(),
     check("nic", "The nic field is required").not().isEmpty(),
     check("address", "The address field is required").not().isEmpty(),
     check("gender", "The gender field is required").not().isEmpty(),
     check("batch", "The batch field is required").not().isEmpty(),
     check("d_o_b", "The d_o_b field is required").not().isEmpty(),
     check("email", "The email field is required").not().isEmpty(),
-    check("attachment", "The attachment field is required").not().isEmpty(),
     check("admission_date", "The admission_date field is required")
       .not()
       .isEmpty(),
@@ -247,14 +261,12 @@ router.put(
       name,
       father_name,
       phone_number,
-      image,
       nic,
       address,
       gender,
       batch,
       d_o_b,
       email,
-      attachment,
       admission_date,
       heard_from,
       reg_number,
@@ -265,19 +277,26 @@ router.put(
       name,
       father_name,
       phone_number,
-      image,
       nic,
       address,
       gender,
       batch,
       d_o_b,
       email,
-      attachment,
       admission_date,
       heard_from,
       reg_number,
       home_phone,
     };
+
+    if (req.files.image) {
+      newStudent.image = req.files.image[0].filename;
+    }
+    if (req.files.attachments) {
+      newStudent.attachments = req.files.attachments.map(
+        (attachment) => attachment.filename
+      );
+    }
 
     const student = await Student.findByIdAndUpdate(
       { _id: req.params.id },
