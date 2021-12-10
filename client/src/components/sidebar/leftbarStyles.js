@@ -1,12 +1,19 @@
 export const leftbarStyles = (theme) => ({
   root: {
     fontFamily: "Raleway, sans-serif",
+    "& .Mui-selected": {
+      backgroundColor: "rgb(79 156 212 / 17%) !important",
+      borderRight: "3px solid #1976d2 !important",
+      "& .MuiListItemIcon-root": {
+        color: "#1976d2",
+      },
+      color: "#1976d2",
+    },
+    "&.Mui-active": {
+      backgroundColor: "rgb(79 156 212 / 17%) !important",
+      borderRight: "3px solid #1976d2 !important",
+    },
   },
-  // drawer: {
-  //   [theme.breakpoints.up("sm")]: {
-  //     width: "200px",
-  //   },
-  // },
   drawerPaper: {
     width: "250px",
     color: "white",
@@ -26,27 +33,60 @@ export const leftbarStyles = (theme) => ({
       backgroundColor: "rgba(180, 180, 180, 0.3)",
     },
   },
-  logoStyle: {
-    width: theme.spacing(18),
-    height: theme.spacing(8),
-  },
-  sideLogo: {
+  logo: {
     fontSize: "16px",
     fontWeight: "400",
-    fontFamily: "Roboto, sans-serif",
+    width: "50%",
+    marginRight: "1.5em",
   },
   icons: {
-    color: "#fff",
+    alignItems: "center",
+    float: "right",
+    color: "#000",
+    display: (props) => (props.open ? "none" : "flex"),
+  },
+  badge: {
+    marginRight: theme.spacing(2),
+    color: "#757575",
   },
   active: {
-    boxShadow:
-      "0 12px 20px -10px rgb(0 172 193 / 28%), 0 4px 20px 0 rgb(0 0 0 / 12%), 0 7px 8px -5px rgb(0 172 193 / 20%)",
-    backgroundColor: "#00acc1",
-    width: "92%",
-    margin: "8px 10px 8px 10px",
-    borderRadius: "3px",
+    backgroundColor: "rgb(79 156 212 / 17%)",
+    borderRight: "3px solid #1976d2",
   },
   notactive: {
     // borderBottom: "1px solid #ccc",
+  },
+  searchButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  typo: {
+    color: "#383737",
+    textAlign: "left",
+  },
+  iconButton: {
+    color: "#757575 !important",
+    "&:hover": {
+      backgroundColor: "rgb(79 156 212 / 17%)",
+    },
+  },
+  menu: {
+    "&:active": {
+      backgroundColor: "rgb(79 156 212 / 17%)",
+      borderRight: "3px solid #1976d2",
+    },
+  },
+  activeNavItem: {
+    backgroundColor: "rgb(79 156 212 / 17%)",
+    borderRight: "3px solid #1976d2",
+  },
+  topbar: {
+    backgroundColor: "#fff !important",
+  },
+  logoutBtn: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
 });

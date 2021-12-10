@@ -4,7 +4,7 @@ export const layoutStyles = (theme) => ({
   root: {
     // display: "flex",
     // border: "1px solid #000",
-    backgroundColor: "#eeeeee",
+    backgroundColor: "#fff",
   },
   main: {
     backgroundColor: "#fff",

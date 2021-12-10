@@ -3,32 +3,58 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import AddStudent from "./components/AddStudent";
+import AddStudent from "./components/pages/students/AddStudent";
 import Dashboard from "./components/Dashboard";
+import { useEffect } from "react";
+import { loadUser } from "./actions/auth";
+import { Provider } from "react-redux";
+import store from "./store";
+import ProtectedRoute from "./components/utils/ProtectedRoute";
+import AddCourse from "./components/pages/course/AddCourse";
+import Courses from "./components/pages/course/Courses";
+import CourseGroup from "./components/pages/course/CourseGroup";
+import BatchGroup from "./components/pages/batch/BatchGroup";
 
 function App() {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  });
   return (
-    <Router>
-      <div className="App" style={{ backgroundColor: "#eee" }}>
-        <Switch>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/signup">
-            <Signup />
-          </Route>
+    <Provider store={store}>
+      <Router>
+        <div className="App" style={{ backgroundColor: "#fff" }}>
+          <Switch>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
 
-          <Layout>
-            <Route exact path="/pagetwo">
-              <Dashboard />
-            </Route>
-            <Route exact path="/addstudent">
-              <AddStudent />
-            </Route>
-          </Layout>
-        </Switch>
-      </div>
-    </Router>
+            <Layout>
+              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+              <ProtectedRoute
+                exact
+                path="/createstudent"
+                component={AddStudent}
+              />
+              <ProtectedRoute
+                exact
+                path="/courses/create"
+                component={AddCourse}
+              />
+              <ProtectedRoute exact path="/managecourses" component={Courses} />
+              <ProtectedRoute
+                exact
+                path="/coursegroup"
+                component={CourseGroup}
+              />
+              <ProtectedRoute exact path="/batchgroup" component={BatchGroup} />
+            </Layout>
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
