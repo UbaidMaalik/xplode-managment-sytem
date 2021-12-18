@@ -4,8 +4,7 @@ const { check, validationResult } = require("express-validator");
 const auth = require("../middlewares/auth");
 const multer = require("multer");
 const path = require("path");
-const { MulterError } = require("multer");
-const nodemailer = require("nodemailer");
+const StudentController = require("../controllers/StudentController");
 
 // Models
 const Student = require("../models/Student");
@@ -32,7 +31,7 @@ const upload = multer({
   limits: { fileSize: 2048000 },
 
   fileFilter: function (req, file, cb) {
-    const fileExt = path.extname(file.originalname);
+    const fileExt = path.extname(file.originalname).toLowerCase();
 
     if (file.fieldname === "image") {
       // Check the type of file
@@ -99,91 +98,31 @@ router.post(
     check("reg_number", "The reg_number field is required").not().isEmpty(),
     check("home_phone", "The home_phone field is required").not().isEmpty(),
   ],
-  async (req, res) => {
-    const validationErrors = validationResult(req);
-
-    if (!validationErrors.isEmpty()) {
-      return res.status(422).json({ errors: validationErrors.array() });
-    }
-
-    if (!req.files.image) {
-      return res.status(422).json({ fileError: "The image field is required" });
-    }
-
-    const image = req.files.image[0].filename;
-    const attachments = req.files.attachments.map(
-      (attachment) => attachment.filename
-    );
-
-    const {
-      name,
-      father_name,
-      phone_number,
-      nic,
-      address,
-      gender,
-      batch,
-      d_o_b,
-      email,
-      admission_date,
-      heard_from,
-      reg_number,
-      home_phone,
-    } = req.body;
-
-    // Check if a batch with the same name already exists
-    const studentNic = await Student.findOne({ nic });
-    const studentEmail = await Student.findOne({ email });
-    const studentRegNum = await Student.findOne({ reg_number });
-
-    if (studentNic || studentEmail || studentRegNum) {
-      return res.status(400).json({ error: "This student already exists" });
-    }
-
-    const student = new Student({
-      name,
-      father_name,
-      phone_number,
-      image,
-      attachments,
-      nic,
-      address,
-      gender,
-      batch,
-      d_o_b,
-      email,
-      admission_date,
-      heard_from,
-      reg_number,
-      home_phone,
-    });
-
-    const newstudent = await student.save();
-
-    if (email) {
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-          user: "ualikhan521@gmail.com", // generated ethereal user
-          pass: "usmana35khan", // generated ethereal password
-        },
-      });
-
-      // send mail with defined transport object
-      let info = await transporter.sendMail({
-        from: '"Xplode Tech" <ualikhan521@gmail.com>', // sender address
-        to: `${name} : ${email}`, // list of receivers
-        subject: "Registation completed ✔", // Subject line
-        html: " <img src='https://scontent.fkhi23-1.fna.fbcdn.net/v/t39.30808-6/p320x320/248649759_668126817901065_55636775377474404_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=e3f864&_nc_eui2=AeG24VUx_Of99jwtMOSinw_ibgAgfZ9lryhuACB9n2WvKChqrs0TagkfkTimiz46tNTgt8GjnmAUFpp-obM08A9j&_nc_ohc=wlzjVRZQxh8AX9-RlRs&_nc_ht=scontent.fkhi23-1.fna&oh=325a06170e42bdc29b5e27c0f5968299&oe=61B28FD4'> <h2 style='text-align: center;'>Welcome To Xplode Tech</h2> <p style='margin-top: 10px;'>Your registation in <b>Xplode Tech</b> has been completed.</p>", // html body
-      });
-      console.log("Message sent: %s", info.messageId);
-    }
-
-    res.json(newstudent);
-  }
+  StudentController.addStudent
 );
+
+/**
+ * @route /students/:keywords
+ * @type GET
+ * @desc students
+ */
+router.get("/search/:keywords", async (req, res) => {
+  try {
+    const keywords = new RegExp(req.params.keywords, "gi");
+    const student = await Student.find({
+      $or: [
+        { name: { $regex: keywords } },
+        { reg_number: { $regex: keywords } },
+      ],
+    });
+    res.json(student);
+  } catch (error) {
+    console.log(error.message);
+    if (error.kind == "ObjectId")
+      return res.status(404).json({ msg: "No student found" });
+    res.status(500).send("Server Error");
+  }
+});
 
 /**
  * @POST
@@ -221,7 +160,6 @@ router.put(
   "/:id/update",
   auth,
   [
-    auth,
     upload.fields([
       {
         name: "image",
@@ -250,61 +188,7 @@ router.put(
     check("reg_number", "The reg_number field is required").not().isEmpty(),
     check("home_phone", "The home_phone field is required").not().isEmpty(),
   ],
-  async (req, res) => {
-    const validationErrors = validationResult(req);
-
-    if (!validationErrors.isEmpty()) {
-      return res.status(422).json({ errors: validationErrors.array() });
-    }
-
-    const {
-      name,
-      father_name,
-      phone_number,
-      nic,
-      address,
-      gender,
-      batch,
-      d_o_b,
-      email,
-      admission_date,
-      heard_from,
-      reg_number,
-      home_phone,
-    } = req.body;
-
-    const newStudent = {
-      name,
-      father_name,
-      phone_number,
-      nic,
-      address,
-      gender,
-      batch,
-      d_o_b,
-      email,
-      admission_date,
-      heard_from,
-      reg_number,
-      home_phone,
-    };
-
-    if (req.files.image) {
-      newStudent.image = req.files.image[0].filename;
-    }
-    if (req.files.attachments) {
-      newStudent.attachments = req.files.attachments.map(
-        (attachment) => attachment.filename
-      );
-    }
-
-    const student = await Student.findByIdAndUpdate(
-      { _id: req.params.id },
-      newStudent,
-      { new: true }
-    );
-    res.json(student);
-  }
+  StudentController.updateStudent
 );
 
 /**
