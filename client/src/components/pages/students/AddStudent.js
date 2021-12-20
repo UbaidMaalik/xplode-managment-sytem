@@ -37,7 +37,7 @@ const AddStudent = ({
     batch: "",
     email: "",
     image: null,
-    attachment: [],
+    attachments: [],
     admission_date: "",
     heard_from: "",
     reg_number: "",
@@ -54,7 +54,7 @@ const AddStudent = ({
     batch,
     email,
     image,
-    attachment,
+    attachments,
     admission_date,
     heard_from,
     reg_number,
@@ -92,8 +92,8 @@ const AddStudent = ({
         d_o_b: new Date("2018-01-01T00:00:00.000Z"),
         batch: "",
         email: "",
-        photo: null,
-        attachment: [],
+        image: null,
+        attachments: [],
         admission_date: new Date("2018-01-01T00:00:00.000Z"),
         heard_from: "",
         reg_number: "",
@@ -135,7 +135,6 @@ const AddStudent = ({
                 id="select-image"
                 hidden
                 onChange={(e) => {
-                  console.log(e.target.files);
                   setState({ ...state, image: e.target.files[0] });
                 }}
               />
@@ -326,16 +325,30 @@ const AddStudent = ({
             <Grid container spacing={2}>
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
-                  <TextField
+                  <Button variant="contained" component="label">
+                    Upload Files
+                    <input
+                      type="file"
+                      hidden
+                      multiple
+                      name="attachments"
+                      onChange={(e) => {
+                        setState({ ...state, attachments: e.target.files });
+                      }}
+                    />
+                  </Button>
+                  {/* <TextField
                     id="outlined-basic"
                     variant="outlined"
                     name="attachments"
-                    value={attachment}
-                    onChange={onChange}
+                    value={attachments}
+                    onChange={(e) => {
+                      setState({ ...state, attachments: e.target.files });
+                    }}
                     type="file"
                     multiple
                     className={classes.stylingTextField2}
-                  />
+                  /> */}
                 </FormControl>
               </Grid>
               <Grid item xs={4} sm={4} md={6}>

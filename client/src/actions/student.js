@@ -24,8 +24,8 @@ export const newStudent = (student) => async (dispatch) => {
     data.append("d_o_b", student.d_o_b);
     data.append("batch", student.batch);
     data.append("email", student.email);
-    Array.from(student.attachment).map((attachment) => {
-      data.append("attachment[]", attachment);
+    Array.from(student.attachments).map((attachment) => {
+      data.append("attachments", attachment);
     });
     data.append("admission_date", student.admission_date);
     data.append("heard_from", student.heard_from);
