@@ -11,7 +11,7 @@ const StudentSchema = new mongoose.Schema(
       required: true,
     },
     phone_number: {
-      type: Number,
+      type: String,
       required: true,
     },
     image: {
@@ -57,7 +57,7 @@ const StudentSchema = new mongoose.Schema(
       required: true,
     },
     home_phone: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
