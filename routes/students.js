@@ -83,20 +83,20 @@ router.post(
   ],
   [
     check("name", "The name field is required").not().isEmpty(),
-    check("father_name", "The father_name field is required").not().isEmpty(),
-    check("phone_number", "The phone_number field is required").not().isEmpty(),
+    check("father_name", "The father name field is required").not().isEmpty(),
+    check("phone_number", "The phone number field is required").not().isEmpty(),
     check("nic", "The nic field is required").not().isEmpty(),
     check("address", "The address field is required").not().isEmpty(),
     check("gender", "The gender field is required").not().isEmpty(),
     check("batch", "The batch field is required").not().isEmpty(),
-    check("d_o_b", "The d_o_b field is required").not().isEmpty(),
+    check("d_o_b", "The d o b field is required").not().isEmpty(),
     check("email", "The email field is required").not().isEmpty(),
-    check("admission_date", "The admission_date field is required")
+    check("admission_date", "The admission date field is required")
       .not()
       .isEmpty(),
-    check("heard_from", "The heard_from field is required").not().isEmpty(),
-    check("reg_number", "The reg_number field is required").not().isEmpty(),
-    check("home_phone", "The home_phone field is required").not().isEmpty(),
+    check("heard_from", "The heard from field is required").not().isEmpty(),
+    check("reg_number", "The reg number field is required").not().isEmpty(),
+    check("home_phone", "The home phone field is required").not().isEmpty(),
   ],
   StudentController.addStudent
 );
@@ -104,7 +104,7 @@ router.post(
 /**
  * @route /students/:keywords
  * @type GET
- * @desc students
+ * @desc search students by name , regestation number
  */
 router.get("/search/:keywords", async (req, res) => {
   try {
@@ -120,6 +120,23 @@ router.get("/search/:keywords", async (req, res) => {
     console.log(error.message);
     if (error.kind == "ObjectId")
       return res.status(404).json({ msg: "No student found" });
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * @route /students/:keywords
+ * @type GET
+ * @desc search students by batch
+ */
+router.get("/searchbybatch/:batch", async (req, res) => {
+  try {
+    const student = await Student.findOne({ batch: req.params.batch });
+    res.json(student);
+  } catch (error) {
+    console.log(error.message);
+    if (error.kind == "ObjectId")
+      return res.status(404).json({ msg: "No students found" });
     res.status(500).send("Server Error");
   }
 });
@@ -173,20 +190,20 @@ router.put(
   ],
   [
     check("name", "The name field is required").not().isEmpty(),
-    check("father_name", "The father_name field is required").not().isEmpty(),
-    check("phone_number", "The phone_number field is required").not().isEmpty(),
+    check("father_name", "The father name field is required").not().isEmpty(),
+    check("phone_number", "The phone number field is required").not().isEmpty(),
     check("nic", "The nic field is required").not().isEmpty(),
     check("address", "The address field is required").not().isEmpty(),
     check("gender", "The gender field is required").not().isEmpty(),
     check("batch", "The batch field is required").not().isEmpty(),
-    check("d_o_b", "The d_o_b field is required").not().isEmpty(),
+    check("d_o_b", "The d o b field is required").not().isEmpty(),
     check("email", "The email field is required").not().isEmpty(),
-    check("admission_date", "The admission_date field is required")
+    check("admission_date", "The admission date field is required")
       .not()
       .isEmpty(),
-    check("heard_from", "The heard_from field is required").not().isEmpty(),
-    check("reg_number", "The reg_number field is required").not().isEmpty(),
-    check("home_phone", "The home_phone field is required").not().isEmpty(),
+    check("heard_from", "The heard from field is required").not().isEmpty(),
+    check("reg_number", "The reg number field is required").not().isEmpty(),
+    check("home_phone", "The home phone field is required").not().isEmpty(),
   ],
   StudentController.updateStudent
 );
