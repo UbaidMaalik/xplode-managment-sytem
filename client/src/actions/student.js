@@ -38,6 +38,13 @@ export const newStudent = (student) => async (dispatch) => {
     });
     dispatch(setAlert("success", "Student added successfuly", 5000));
   } catch (error) {
+    if (
+      error.response.status === 500 &&
+      error.response.headers["content-type"] === "text/html; charset=utf-8"
+    ) {
+      dispatch(setAlert("warning", "Invalid files(s) selected!", 5000));
+      // console.log(error.response);
+    }
     dispatch({
       type: STUDENT_ERROR,
       payload: {
@@ -56,9 +63,9 @@ export const newStudent = (student) => async (dispatch) => {
   }
 };
 
-export const getStudents = () => async (dispatch) => {
+export const getStudents = (keyword) => async (dispatch) => {
   try {
-    const res = await axios.get("/students");
+    const res = await axios.get(`/students/search/${keyword}`);
 
     dispatch({
       type: GET_STUDENTS,

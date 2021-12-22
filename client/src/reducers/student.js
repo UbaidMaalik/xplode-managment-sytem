@@ -24,6 +24,12 @@ export default function (state = initialState, action) {
         students: [payload, ...state.students],
       };
 
+    case GET_STUDENTS:
+      return {
+        ...state,
+        loading: false,
+        students: payload,
+      };
     default:
       return state;
   }

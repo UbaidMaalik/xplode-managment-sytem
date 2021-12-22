@@ -14,6 +14,7 @@ import AddCourse from "./components/pages/course/AddCourse";
 import Courses from "./components/pages/course/Courses";
 import CourseGroup from "./components/pages/course/CourseGroup";
 import BatchGroup from "./components/pages/batch/BatchGroup";
+import ManageStudent from "./components/pages/students/ManageStudent";
 
 function App() {
   useEffect(() => {
@@ -37,6 +38,11 @@ function App() {
                 exact
                 path="/createstudent"
                 component={AddStudent}
+              />
+              <ProtectedRoute
+                exact
+                path="/managestudent"
+                component={ManageStudent}
               />
               <ProtectedRoute
                 exact

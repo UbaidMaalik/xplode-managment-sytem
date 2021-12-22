@@ -310,7 +310,7 @@ const AddStudent = ({
               <Grid item xs={4} sm={4} md={6}>
                 <FormControl fullWidth sx={{ m: 1 }}>
                   <InputLabel htmlFor="outlined-adornment-email">
-                    Email (optional){" "}
+                    Email{" "}
                   </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-email"
@@ -337,18 +337,6 @@ const AddStudent = ({
                       }}
                     />
                   </Button>
-                  {/* <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    name="attachments"
-                    value={attachments}
-                    onChange={(e) => {
-                      setState({ ...state, attachments: e.target.files });
-                    }}
-                    type="file"
-                    multiple
-                    className={classes.stylingTextField2}
-                  /> */}
                 </FormControl>
               </Grid>
               <Grid item xs={4} sm={4} md={6}>

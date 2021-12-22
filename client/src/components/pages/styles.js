@@ -19,6 +19,28 @@ export const dataStyles = (theme) => ({
     marginLeft: "1em",
     marginTop: "1em",
   },
+  styleBox1: {
+    backgroundColor: "#fff",
+    borderRadius: "5px",
+    padding: "8px 20px 20px 20px",
+    position: "relative",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 1px 32px -4px",
+    marginRight: "2em",
+    marginLeft: "1em",
+    marginTop: "1em !important",
+  },
+  cardIcon: {
+    position: "absolute",
+    marginTop: "-0.8em",
+    background: "#fff",
+    border: "1px solid #1976d2",
+    borderRadius: "6px !important",
+    padding: "7px",
+    color: "#1976d2",
+    width: "45px !important",
+    height: "42px !important",
+  },
   rightBox: {
     backgroundColor: "#fff",
     borderRadius: "5px",
@@ -55,6 +77,18 @@ export const dataStyles = (theme) => ({
     color: "#fff",
     marginTop: "1.5em",
     marginBottom: "0.5em",
+    "&:hover": {
+      backgroundColor: "rgb(24, 144, 255)",
+      border: "0",
+      boxShadow: "#fff 0px 8px 16px 0px",
+    },
+  },
+  stdBtn: {
+    backgroundColor: "#1976d2",
+    boxShadow: "rgb(24 144 255 / 24%) 0px 8px 16px 0px",
+    float: "right !important",
+    color: "#fff",
+    marginTop: "11px !important",
     "&:hover": {
       backgroundColor: "rgb(24, 144, 255)",
       border: "0",
