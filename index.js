@@ -20,6 +20,9 @@ app.use("/courses", require("./routes/courses"));
 app.use("/batches", require("./routes/batches"));
 app.use("/students", require("./routes/students"));
 
+const directory = path.join(__dirname, "uploads");
+app.use("/uploads", express.static(directory));
+
 app.get("/", (req, res) => {
   res.send(`Server listening on PORT ${PORT}`);
 });
