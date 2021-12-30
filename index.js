@@ -19,6 +19,7 @@ app.use("/login", require("./routes/login"));
 app.use("/courses", require("./routes/courses"));
 app.use("/batches", require("./routes/batches"));
 app.use("/students", require("./routes/students"));
+app.use("/expense", require("./routes/expense"));
 
 const directory = path.join(__dirname, "uploads");
 app.use("/uploads", express.static(directory));
