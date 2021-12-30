@@ -131,7 +131,7 @@ router.get("/search/:keywords", async (req, res) => {
  */
 router.get("/searchbybatch/:batch", async (req, res) => {
   try {
-    const student = await Student.findOne({ batch: req.params.batch });
+    const student = await Student.find({ batch: req.params.batch });
     res.json(student);
   } catch (error) {
     console.log(error.message);
