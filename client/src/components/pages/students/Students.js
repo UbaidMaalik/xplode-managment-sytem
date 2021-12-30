@@ -11,66 +11,59 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import CircularProgress from "@mui/material/CircularProgress";
+import Actions from "./Actions";
 
 const useStyles = makeStyles((theme) => dataStyles(theme));
-const Students = ({ getStudents, student: { students, loading } }) => {
+const Students = ({ getStudents, student: { students, searchLoading } }) => {
   const classes = useStyles();
-
-  useEffect(() => {
-    getStudents();
-  }, []);
 
   return (
     <Fragment>
-      {!loading &&
-        students.length &&
-        students.map((student) => (
-          <Card sx={{ maxWidth: 345 }} key={student._id}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image={`uploads/students/images/${student.image}`}
-                alt="student photo"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {student.name}
-                </Typography>
-                <Typography variant="subtitle2" color="text.secondary">
-                  {student.father_name}
-                  <br />
-                  {student.phone_number}
-                  <br />
-                  {student.nic}
-                  <br />
-                  {student.address}
-                  <br />
-                  {student.gender}
-                  <br />
-                  {student.batch}
-                  <br />
-                  {student.d_o_b}
-                  <br />
-                  {student.email}
-                  <br />
-                  {student.admission_date}
-                  <br />
-                  {student.heard_from}
-                  <br />
-                  {student.reg_number}
-                  <br />
-                  {student.home_phone}
-                  <br />
-                  {student.createdAt}
-                  <br />
-                  {student.updatedAt}
-                  <br />
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+      {searchLoading && <CircularProgress />}
+      {!searchLoading && !students.length && "Student Record Not Found"}
+      {!searchLoading && students.length
+        ? students.map((student) => (
+            <Card
+              sx={{ maxWidth: 450 }}
+              key={student._id}
+              className={classes.studentCards}
+            >
+              <CardActionArea>
+                <CardMedia
+                  className={classes.stdImageBanner}
+                  component="img"
+                  height="140"
+                  image="/images/previewBanner1.jpg"
+                  alt="student photo"
+                />
+                <div className={classes.bottomBorder}>
+                  <img src="/images/bottomBorder.png" />
+                </div>
+
+                <div
+                  className={classes.stdAvatar}
+                  style={{
+                    background: `url(uploads/students/images/${student.image}) no-repeat center / cover`,
+                  }}
+                ></div>
+                <CardContent className={classes.stdContent}>
+                  <Typography gutterBottom variant="h6" component="div">
+                    {student.name}
+                  </Typography>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {student.phone_number}
+                    <br />
+
+                    {student.email}
+                  </Typography>
+                </CardContent>
+                <Actions studentId={student._id} />
+              </CardActionArea>
+            </Card>
+          ))
+        : null}
     </Fragment>
   );
 };
@@ -78,4 +71,4 @@ const Students = ({ getStudents, student: { students, loading } }) => {
 const mapStateToProps = (state) => ({
   student: state.student,
 });
-export default connect(mapStateToProps, { getStudents })(Students);
+export default connect(mapStateToProps)(Students);

@@ -63,11 +63,13 @@ export const leftbarStyles = (theme) => ({
     },
   },
   typo: {
-    color: "#383737",
+    // color: "#383737",
+    color: "#fff",
     textAlign: "left",
   },
   iconButton: {
-    color: "#757575 !important",
+    // color: "#757575 !important",
+    color: "#fff",
     "&:hover": {
       backgroundColor: "rgb(79 156 212 / 17%)",
     },
@@ -83,10 +85,15 @@ export const leftbarStyles = (theme) => ({
     borderRight: "3px solid #1976d2",
   },
   topbar: {
-    backgroundColor: "#fff !important",
+    // backgroundColor: "#fff !important",
+    backgroundImage: "url(/images/previewBanner1.jpg)",
   },
   logoutBtn: {
     justifyContent: "flex-end",
     alignItems: "flex-end",
+    color: "#fff",
+  },
+  logOutColor: {
+    color: "#fff",
   },
 });

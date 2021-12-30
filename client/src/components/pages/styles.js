@@ -22,7 +22,7 @@ export const dataStyles = (theme) => ({
   styleBox1: {
     backgroundColor: "#fff",
     borderRadius: "5px",
-    padding: "8px 20px 20px 20px",
+    padding: "30px 20px 20px 20px",
     position: "relative",
     boxShadow:
       "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 1px 32px -4px",
@@ -30,9 +30,184 @@ export const dataStyles = (theme) => ({
     marginLeft: "1em",
     marginTop: "1em !important",
   },
+  stdCard: {
+    marginTop: "3em !important",
+    marginLeft: "1em !important",
+  },
+  studentCards: {
+    width: "25%",
+    borderRadius: "20px !important",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  stdPrevstyleBox1: {
+    backgroundColor: "#fff",
+    borderRadius: "20px",
+    padding: "30px 20px 20px 20px",
+    position: "relative",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 1px 32px -4px",
+    marginRight: "0em",
+    marginLeft: "0em",
+    marginTop: "1em !important",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  stdPrevstyleBox2: {
+    backgroundColor: "#fff",
+    borderRadius: "20px",
+    padding: "30px 20px 20px 20px",
+    position: "relative",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 1px 32px -4px",
+    marginRight: "0em",
+    marginLeft: "0em",
+    marginTop: "10px !important",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  stdName: {
+    textAlign: "left",
+    fontSize: "20px",
+  },
+  stdBatch: {
+    textAlign: "left",
+    fontSize: "17px",
+    color: "#ffffffad",
+    lineHeight: "35px",
+  },
+  stdAttachment: {
+    borderRadius: "20px",
+    boxShadow: "0px 0px 5px 1px #ccc",
+    padding: "7px",
+    marginBottom: "15px",
+    width: "64%",
+    marginLeft: "61px",
+    backgroundImage: "url(images/previewBanner1.jpg)",
+  },
+  stdhr: {
+    width: "50%",
+    backgroundColor: "#e9eaeb",
+    padding: "1px",
+    marginLeft: "50px",
+    marginBottom: "3px",
+  },
+  stdPrevstyleBox3: {
+    backgroundColor: "#fff",
+    borderRadius: "20px",
+    padding: "30px 20px 20px 20px",
+    position: "relative",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 1px 32px -4px",
+    marginRight: "1em",
+    marginLeft: "2em",
+    marginTop: "10px !important",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  stdHeading: {
+    textAlign: "left",
+    marginBottom: "20px",
+  },
+  stdIcons: {
+    verticalAlign: "middle",
+    marginRight: "10px",
+  },
+  stdPrevCards: {
+    width: "100%",
+    borderRadius: "20px !important",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 1px 32px -4px !important",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  stdDivStyle: {
+    textAlign: "center",
+    float: "left",
+    borderRight: "1px solid #ccc",
+    display: "flex",
+    flexDirection: "column",
+    width: "48%",
+  },
+  stdDivider: {
+    marginTop: "-8px !important",
+  },
+  stdTitle: {
+    fontSize: "20px",
+  },
+  stdHr: {
+    margin: "0px",
+    flexShrink: "0",
+    borderWidth: "0px thin 0px 0px",
+    borderStyle: "solid",
+    borderColor: "rgba(145, 158, 171, 0.24)",
+    height: "auto",
+    alignSelf: "stretch",
+  },
+  stdImageBanner: {
+    backdropFilter: " blur(2px)",
+    backgroundColor: "rgba(0, 82, 73, 0.8)",
+    top: "0px",
+    zIndex: "8",
+    content: "",
+  },
+  stdAvatar: {
+    position: "absolute",
+    width: "90px",
+    height: "90px",
+    borderRadius: "50%",
+    left: "0",
+    right: "0",
+    top: "100px",
+    border: "5px solid #fff",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  stdPrevAvatar: {
+    position: "absolute",
+    width: "140px",
+    height: "140px",
+    borderRadius: "50%",
+    left: "18px !important",
+    // right: "0",
+    top: "20px",
+    border: "5px solid #fff",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  bottomBorder: {
+    position: "absolute",
+    top: "104px",
+    left: "0",
+    right: "0",
+  },
+  stdPrevBottomBorder: {
+    position: "absolute",
+    top: "70px",
+    left: "14em",
+    color: "#fff",
+  },
+  stdContent: {
+    marginTop: "4em",
+    flexShrink: "0",
+    borderBottom: "1px dashed rgba(145, 158, 171, 0.24)",
+  },
+  stdPrevContent: {
+    marginTop: "-8px",
+    flexShrink: "0",
+  },
+  rightArrow: {
+    fontSize: "30px",
+    margin: "10px",
+  },
   cardIcon: {
     position: "absolute",
-    marginTop: "-0.8em",
+    marginTop: "-1.5em",
     background: "#fff",
     border: "1px solid #1976d2",
     borderRadius: "6px !important",
@@ -83,6 +258,21 @@ export const dataStyles = (theme) => ({
       boxShadow: "#fff 0px 8px 16px 0px",
     },
   },
+  stdDownloadBtn: {
+    backgroundColor: "#1976d2",
+    boxShadow: "rgb(24 144 255 / 24%) 0px 8px 16px 0px",
+    color: "#fff",
+    marginTop: "1.5em",
+    marginBottom: "0.5em",
+    "&:hover": {
+      backgroundColor: "rgb(24, 144, 255)",
+      border: "0",
+      boxShadow: "#fff 0px 1px 8px 2px",
+    },
+  },
+  stdLink: {
+    textDecoration: "none !important",
+  },
   stdBtn: {
     backgroundColor: "#1976d2",
     boxShadow: "rgb(24 144 255 / 24%) 0px 8px 16px 0px",
@@ -127,6 +317,23 @@ export const dataStyles = (theme) => ({
   modal: {
     textAlign: "center",
   },
+  stdPreview: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "85%",
+    height: 600,
+    bgcolor: "background.paper",
+    backgroundColor: "#fff",
+    borderRadius: "3px",
+    border: "1px solid #eee",
+    padding: "10px",
+    boxShadow:
+      "rgb(145 158 171 / 24%) 0px 0px 2px 0px, rgb(145 158 171 / 24%) 0px 16px 32px -4px",
+    p: 10,
+    alignContent: "center",
+  },
   editBtn: {
     // backgroundColor: "1976d2 !important",
     boxShadow:
@@ -156,10 +363,43 @@ export const dataStyles = (theme) => ({
       boxShadow: "#1976d200 0px 8px 16px 0px",
     },
   },
+  stdPreviewIcon: {
+    // backgroundColor: "#1976d2",
+    boxShadow: "rgb(187 187 187 / 41%) 0px 2px 10px 0px",
+    color: "#1976d2",
+    margin: "10px",
+    "&:hover": {
+      backgroundColor: "rgb(24 144 255 / 9%)",
+      border: "0",
+      boxShadow: "#fff 0px 8px 16px 0px",
+    },
+  },
+  stdEditIcon: {
+    // backgroundColor: "#1976d2",
+    boxShadow: "rgb(187 187 187 / 41%) 0px 2px 10px 0px",
+    color: "rgb(46 125 50)",
+    margin: "10px",
+    "&:hover": {
+      backgroundColor: "rgb(1 233 13 / 9%)",
+      border: "0",
+      boxShadow: "#fff 0px 8px 16px 0px",
+    },
+  },
+  stdDeleteIcon: {
+    // backgroundColor: "#1976d2",
+    boxShadow: "rgb(187 187 187 / 41%) 0px 2px 10px 0px",
+    color: "rgb(247 4 4)",
+    margin: "10px",
+    "&:hover": {
+      backgroundColor: "rgb(197 73 73 / 9%)",
+      border: "0",
+      boxShadow: "#fff 0px 8px 16px 0px",
+    },
+  },
   iconColor: {
     color: "red !important",
   },
-  image: {
+  stdImage: {
     width: "144px",
     height: "144px",
     margin: "auto",

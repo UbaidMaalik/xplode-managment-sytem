@@ -15,6 +15,8 @@ import Courses from "./components/pages/course/Courses";
 import CourseGroup from "./components/pages/course/CourseGroup";
 import BatchGroup from "./components/pages/batch/BatchGroup";
 import ManageStudent from "./components/pages/students/ManageStudent";
+import StudentPreview from "./components/pages/students/StudentPreview";
+import UpdateForm from "./components/pages/students/UpdateForm";
 
 function App() {
   useEffect(() => {
@@ -56,6 +58,11 @@ function App() {
                 component={CourseGroup}
               />
               <ProtectedRoute exact path="/batchgroup" component={BatchGroup} />
+              <ProtectedRoute
+                exact
+                path="/students/:id/update"
+                component={UpdateForm}
+              />
             </Layout>
           </Switch>
         </div>

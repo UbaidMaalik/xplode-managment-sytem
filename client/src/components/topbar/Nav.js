@@ -141,7 +141,11 @@ const PersistentDrawerLeft = ({ children, logout }) => {
           >
             Xplode Managment System
           </Typography>
-          <Button variant="text" onClick={logUserOut}>
+          <Button
+            variant="text"
+            className={classes.logOutColor}
+            onClick={logUserOut}
+          >
             Logout
           </Button>
         </Toolbar>
