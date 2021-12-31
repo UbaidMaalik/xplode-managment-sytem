@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PaymentIcon from "@mui/icons-material/Payment";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SchoolIcon from "@mui/icons-material/School";
+import PaidIcon from "@mui/icons-material/Paid";
 
 export const LeftBarData = (currentRoute) => [
   {
@@ -20,14 +21,14 @@ export const LeftBarData = (currentRoute) => [
     title: "Batch",
     path: "/batchgroup",
     icon: <SchoolIcon />,
-    open: currentRoute === "/batchgroup" || currentRoute === "/batchgroup",
+    selected: currentRoute === "/batchgroup",
   },
   {
     id: 3,
     title: "Courses",
     path: "/coursegroup",
     icon: <EditIcon />,
-    open: currentRoute === "/coursegroup" || currentRoute === "/coursegroup",
+    selected: currentRoute === "/coursegroup",
   },
   {
     id: 4,
@@ -52,10 +53,18 @@ export const LeftBarData = (currentRoute) => [
       },
     ],
   },
+  // {
+  //   id: 5,
+  //   title: "Fees Structure",
+  //   path: "/",
+  //   icon: <PaymentIcon />,
+  //   selected: currentRoute === "/expensegroup",
+  // },
   {
-    id: 5,
-    title: "Fees Structure",
-    path: "/",
-    icon: <PaymentIcon />,
+    id: 6,
+    title: "Expenses",
+    path: "expensegroup",
+    icon: <PaidIcon />,
+    selected: currentRoute === "/expensegroup",
   },
 ];

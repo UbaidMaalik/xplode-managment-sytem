@@ -35,8 +35,9 @@ export const dataStyles = (theme) => ({
     marginLeft: "1em !important",
   },
   studentCards: {
-    width: "25%",
+    // width: "25%",
     borderRadius: "20px !important",
+    marginRight: "10px !important",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },

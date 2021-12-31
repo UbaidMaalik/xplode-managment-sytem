@@ -4,6 +4,7 @@ import alert from "./alert";
 import course from "./course";
 import batch from "./batch";
 import student from "./student";
+import expense from "./expense";
 
 export default combineReducers({
   auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   course,
   batch,
   student,
+  expense,
 });

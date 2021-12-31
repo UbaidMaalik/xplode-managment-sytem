@@ -17,6 +17,7 @@ import BatchGroup from "./components/pages/batch/BatchGroup";
 import ManageStudent from "./components/pages/students/ManageStudent";
 import StudentPreview from "./components/pages/students/StudentPreview";
 import UpdateForm from "./components/pages/students/UpdateForm";
+import ExpenseGroup from "./components/pages/expense/ExpenseGroup";
 
 function App() {
   useEffect(() => {
@@ -56,6 +57,11 @@ function App() {
                 exact
                 path="/coursegroup"
                 component={CourseGroup}
+              />
+              <ProtectedRoute
+                exact
+                path="/expensegroup"
+                component={ExpenseGroup}
               />
               <ProtectedRoute exact path="/batchgroup" component={BatchGroup} />
               <ProtectedRoute

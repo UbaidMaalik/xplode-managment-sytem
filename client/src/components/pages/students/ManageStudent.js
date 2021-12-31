@@ -83,21 +83,21 @@ const ManageStudent = ({
             </Box>
           </Grid>
 
-          <Grid xs={11} sm={11} md={1}></Grid>
-          <Grid xs={11} sm={11} md={5}>
+          {/* <Grid xs={11} sm={11} md={1}></Grid> */}
+          <Grid xs={11} sm={11} md={6}>
             <Box
               component="form"
               onSubmit={onSubmitBatch}
               sx={{ display: "flex", alignItems: "flex-end" }}
             >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <InputLabel htmlFor="outlined-adornment-batch">
-                  Batch{" "}
+              <FormControl variant="standard" fullWidth>
+                <InputLabel htmlFor="demo-simple-select-standard-label">
+                  Search By Batch{" "}
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="batch"
-                  label="Batch"
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  label="Search By Batch"
                   name="batch"
                   // value={batch}
                   onChange={onChangeBatch}

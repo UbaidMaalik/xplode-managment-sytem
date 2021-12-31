@@ -34,12 +34,12 @@ const AddStudent = ({
     gender: "",
     nic: "",
     address: "",
-    d_o_b: "",
+    d_o_b: new Date("1/1/2000"),
     batch: "",
     email: "",
     image: null,
     attachments: [],
-    admission_date: "",
+    admission_date: new Date(),
     heard_from: "",
     reg_number: "",
   });
@@ -267,7 +267,7 @@ const AddStudent = ({
               <Grid item xs={4} sm={4} md={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                    label="Date Of borth"
+                    label="Date Of Birth"
                     value={d_o_b}
                     onChange={(newVal) => setState({ ...state, d_o_b: newVal })}
                     renderInput={(params) => (
