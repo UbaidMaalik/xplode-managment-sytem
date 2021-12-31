@@ -1,17 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import Alert from "@mui/material/Alert";
-import { Stack } from "@mui/material";
+import { Snackbar, Stack } from "@mui/material";
 
 const AAlert = ({ alert }) => {
+  const [state, setState] = React.useState({
+    vertical: "bottom",
+    horizontal: "right",
+  });
+
+  const { vertical, horizontal } = state;
   return (
     alert !== null &&
     alert.length > 0 && (
       <Stack sx={{ width: "100%" }} spacing={2}>
         {alert.map((alert) => (
-          <Alert key={alert.id} severity={alert.type}>
-            {alert.message}
-          </Alert>
+          <Snackbar
+            open={true}
+            autoHideDuration={6000}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          >
+            <Alert key={alert.id} severity={alert.type} variant="filled">
+              {alert.message}
+            </Alert>
+          </Snackbar>
         ))}
       </Stack>
     )

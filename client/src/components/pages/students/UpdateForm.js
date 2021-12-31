@@ -11,21 +11,25 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import { getBatches } from "../../../actions/batch";
 import TextField from "@mui/material/TextField";
-import { newStudent } from "../../../actions/student";
+import { updateStudent } from "../../../actions/student";
+import { singleStudent } from "../../../actions/student";
 import { connect } from "react-redux";
 import AAlert from "../../../globals/AAlert";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => dataStyles(theme));
-const AddStudent = ({
-  newStudent,
+const UpdateForm = ({
+  updateStudent,
+  singleStudent,
+  student: { student, loading },
   alert,
   getBatches,
-  btnLoading,
-  batch: { batches, loading },
+  batch: { batches },
 }) => {
   const classes = useStyles();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const { id } = useParams();
   const [state, setState] = useState({
     name: "",
     father_name: "",
@@ -34,15 +38,41 @@ const AddStudent = ({
     gender: "",
     nic: "",
     address: "",
-    d_o_b: new Date("1/1/2000"),
+    d_o_b: "",
     batch: "",
     email: "",
     image: null,
     attachments: [],
-    admission_date: new Date(),
+    admission_date: "",
     heard_from: "",
     reg_number: "",
   });
+
+  useEffect(() => {
+    singleStudent(id);
+  }, [id]);
+
+  useEffect(() => {
+    if (student != null) {
+      setState({
+        name: student.name,
+        father_name: student.father_name,
+        phone_number: student.phone_number,
+        home_phone: student.home_phone,
+        gender: student.gender,
+        nic: student.nic,
+        address: student.address,
+        d_o_b: student.d_o_b,
+        batch: student.batch,
+        email: student.email,
+        admission_date: student.admission_date,
+        heard_form: student.heard_form,
+        reg_number: student.reg_number,
+        image: null,
+        attachments: [],
+      });
+    }
+  }, [student]);
   const {
     name,
     father_name,
@@ -79,26 +109,8 @@ const AddStudent = ({
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    newStudent(state);
-    if (alert.length === 0) {
-      setState({
-        name: "",
-        father_name: "",
-        phone_number: "",
-        home_phone: "",
-        gender: "",
-        nic: "",
-        address: "",
-        d_o_b: new Date("2018-01-01T00:00:00.000Z"),
-        batch: "",
-        email: "",
-        image: null,
-        attachments: [],
-        admission_date: new Date("2018-01-01T00:00:00.000Z"),
-        heard_from: "",
-        reg_number: "",
-      });
-    }
+
+    updateStudent(id, state);
   };
   return (
     <Fragment>
@@ -108,7 +120,7 @@ const AddStudent = ({
         component="div"
         className={classes.heading}
       >
-        Create a new student
+        Update Student
       </Typography>
 
       <Box
@@ -125,7 +137,7 @@ const AddStudent = ({
             <Button
               variant="contained"
               component="label"
-              className={classes.image}
+              className={classes.stdImage}
             >
               <AddAPhotoIcon />
 
@@ -135,14 +147,18 @@ const AddStudent = ({
                 id="select-image"
                 hidden
                 onChange={(e) => {
+                  console.log(e.target.files[0]);
                   setState({ ...state, image: e.target.files[0] });
                 }}
               />
-              {imageUrl && image && (
+              {student.image && (
                 <Box mt={2} textAlign="center">
                   <img
-                    src={imageUrl}
-                    alt={image.name}
+                    src={
+                      !imageUrl
+                        ? `/uploads/students/images/${student.image}`
+                        : imageUrl
+                    }
                     className={classes.previewImage}
                   />
                 </Box>
@@ -267,7 +283,7 @@ const AddStudent = ({
               <Grid item xs={4} sm={4} md={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                    label="Date Of Birth"
+                    label="Date Of borth"
                     value={d_o_b}
                     onChange={(newVal) => setState({ ...state, d_o_b: newVal })}
                     renderInput={(params) => (
@@ -393,9 +409,8 @@ const AddStudent = ({
                   variant="contained"
                   type="submit"
                   className={classes.submitBtn}
-                  disabled={btnLoading}
                 >
-                  SUBMIT
+                  UPDATE
                 </Button>
               </Grid>
             </Grid>
@@ -410,6 +425,10 @@ const AddStudent = ({
 const mapStateToProps = (state) => ({
   alert: state.alert,
   batch: state.batch,
-  btnLoading: state.student.btnLoading,
+  student: state.student,
 });
-export default connect(mapStateToProps, { newStudent, getBatches })(AddStudent);
+export default connect(mapStateToProps, {
+  updateStudent,
+  singleStudent,
+  getBatches,
+})(UpdateForm);
