@@ -100,9 +100,25 @@ router.put(
 
 /**
  * @GET
- * @endpoint /expense/:id/monthly
+ * @endpoint /expense/monthly
  * @description monthly expense
  */
+router.post("/monthly", auth, async (req, res) => {
+  const { date } = req.body;
+
+  const splitDate = date.split("-");
+  const year = parseInt(splitDate[0]);
+  const month = parseInt(splitDate[1]);
+
+  console.log(year);
+  console.log(month);
+
+  const monthlyExpense = await Expense.aggregate([
+    { $addFields: { month: { $month: "$date" }, year: { $year: "$date" } } },
+    { $match: { month, year } },
+  ]);
+  res.json(monthlyExpense);
+});
 
 /**
  * @GET
