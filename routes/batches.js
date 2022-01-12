@@ -6,6 +6,7 @@ const auth = require("../middlewares/auth");
 
 // model
 const Batch = require("../models/Batch");
+const Student = require("../models/Student");
 
 /**
  * @POST
@@ -129,7 +130,11 @@ router.put(
  * @description delete a batch
  */
 router.delete("/:id/delete", auth, async (req, res) => {
-  await Batch.findOneAndDelete({ _id: req.params.id });
+  const batchId = req.params.id;
+
+  await Batch.findOneAndDelete({ _id: batchId });
+
+  await Student.deleteMany({ batch: batchId });
 
   res.json({ message: "batch deleted successfully" });
 });
