@@ -3,6 +3,7 @@ const UserController = require("../controllers/UserController");
 
 // Models
 const Student = require("../models/Student");
+const User = require("../models/User");
 
 class StudentController {
   async addStudent(req, res) {
@@ -10,6 +11,14 @@ class StudentController {
 
     if (!validationErrors.isEmpty()) {
       return res.status(422).json({ errors: validationErrors.array() });
+    }
+
+    // Check if a user with the same email already exists
+    const userExists = await User.findOne({ email: req.body.email });
+    if (userExists) {
+      return res
+        .status(400)
+        .json({ error: "A user with the same email already exists" });
     }
 
     if (!req.files.image) {
@@ -69,7 +78,7 @@ class StudentController {
     const newstudent = await student.save();
 
     // Students as a User register
-    UserController.addUser({ name, email });
+    UserController.addUser(res, { name, email });
 
     return res.json(newstudent);
   }
