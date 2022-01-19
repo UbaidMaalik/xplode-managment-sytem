@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const User = require("../models/User");
 
 class UserController {
-  async addUser({ name, email }) {
+  async addUser(res, { name, email }) {
     const password = generatePassword.generate({
       length: 7,
       numbers: true,
@@ -16,7 +16,9 @@ class UserController {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return { error: "A user with the same email already exists" };
+      return res
+        .status(400)
+        .json({ error: "A user with the same email already exists" });
     }
 
     // creating a new mongoose doc from user data
